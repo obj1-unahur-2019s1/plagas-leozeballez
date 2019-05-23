@@ -1,0 +1,28 @@
+import elementos.*
+
+describe "Elementos"{
+	const h = new Hogar(nivelMugre = 2, confort = 100)
+	const hu = new Huerta(capacidadProduccion = 210)
+	const superHu = new Huerta(capacidadProduccion = 210)
+	const m = new Mascota(nivelSalud = 300)
+	var b = new Barrio(elementos = #{h, hu, m})
+	
+	test "Hogar" {
+		assert.that(h.esBueno())
+	}
+
+	test "Huerta" {
+		reguladorNivel.nivel(20)
+		
+		assert.that(hu.esBueno())
+		assert.that(superHu.esBueno())
+	}
+	
+	test "Mascota" {
+		assert.that(m.esBueno())
+	}
+	
+	test "Barrio" {
+		assert.that(b.esCopado())
+	}
+}
