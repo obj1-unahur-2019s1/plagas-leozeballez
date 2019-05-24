@@ -30,32 +30,39 @@ class Barrio {
 	method esCopado() = elementosBuenos > elementosMalos
 }
 
-
-class PlagaCucas {
+//PLAGAS
+class Plaga {
 	var property poblacion
-	var pesoPromedio
 	
-	method transmitirEnfermedad() {}
-	method nivelDanio() {}
+	method transmitirEnfermedad() = poblacion > 10
+	method atacar(elemento) {
+		poblacion *= 1.1
+	}
 }
 
-class PlagaPulgas {
-	var property poblacion
-	var pesoPromedio
+class PlagaCucas inherits Plaga {
+	var property pesoPromedio
 	
-	method transmitirEnfermedad() {}
+	override method transmitirEnfermedad() = super() and pesoPromedio >= 10
+	method nivelDanio() = poblacion / 2
+	override method atacar(elemento){
+		super(elemento)
+		poblacion += 2
+	}
 }
 
-class PlagaGarrapatas {
-	var property poblacion
-	var pesoPromedio
-	
-	method transmitirEnfermedad() {}
+class PlagaPulgas inherits Plaga{
+	method nivelDanio() = poblacion * 2
 }
 
-class PlagaMosquitos {
-	var property poblacion
-	var pesoPromedio
-	
-	method transmitirEnfermedad() {}
+class PlagaGarrapatas inherits PlagaPulgas{
+	override method atacar(elemento){
+		super(elemento)
+		poblacion += poblacion *0.2
+	}
+}
+
+class PlagaMosquitos inherits Plaga{
+	override method transmitirEnfermedad() = super() and poblacion % 3 == 0
+	method nivelDanio() = poblacion
 }

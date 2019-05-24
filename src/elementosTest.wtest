@@ -6,6 +6,8 @@ describe "Elementos"{
 	const superHu = new Huerta(capacidadProduccion = 210)
 	const m = new Mascota(nivelSalud = 300)
 	var b = new Barrio(elementos = #{h, hu, m})
+	const cuca = new PlagaCucas(poblacion = 30, pesoPromedio = 10)
+	const pulga = new PlagaPulgas(poblacion = 30)
 	
 	test "Hogar" {
 		assert.that(h.esBueno())
@@ -24,5 +26,15 @@ describe "Elementos"{
 	
 	test "Barrio" {
 		assert.that(b.esCopado())
+	}
+	
+	test "cuca" {
+		assert.equals(15, cuca.nivelDanio())
+		assert.that(cuca.transmitirEnfermedad())
+	}
+	
+	test "pulga" {
+		assert.that(pulga.transmitirEnfermedad())
+		assert.equals(60, pulga.nivelDanio())
 	}
 }
