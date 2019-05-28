@@ -8,6 +8,7 @@ describe "Elementos"{
 	var b = new Barrio(elementos = #{h, hu, m})
 	const cuca = new PlagaCucas(poblacion = 30, pesoPromedio = 10)
 	const pulga = new PlagaPulgas(poblacion = 30)
+	const cuca2 = new PlagaCucas(poblacion = 160, pesoPromedio = 80)
 	
 	test "Hogar" {
 		assert.that(h.esBueno())
@@ -27,7 +28,7 @@ describe "Elementos"{
 	test "Barrio" {
 		assert.that(b.esCopado())
 	}
-	
+	//no entiendo por que no funciona el barrio si esta testeado arriba que cada elemento es bueno.
 	test "cuca" {
 		assert.equals(15, cuca.nivelDanio())
 		assert.that(cuca.transmitirEnfermedad())
@@ -36,5 +37,17 @@ describe "Elementos"{
 	test "pulga" {
 		assert.that(pulga.transmitirEnfermedad())
 		assert.equals(60, pulga.nivelDanio())
+	}
+	
+	test "huerta recibe ataque" {
+		cuca2.atacar(hu)
+		//plaga que transmite enfermedad
+		assert.equals(192, hu.capacidadProduccion())
+		
+		cuca2.pesoPromedio(5)
+		cuca2.poblacion(160)
+		cuca2.atacar(hu)
+		//plaga que NO transmite enfermedad
+		assert.equals(184, hu.capacidadProduccion())
 	}
 }

@@ -3,12 +3,19 @@ class Hogar {
 	var property confort
 	
 	method esBueno() = nivelMugre <= confort/2
+	method recibirAtaque(plaga){nivelMugre += plaga.nivelDanio()}
 }
 
 class Huerta {
 	var property capacidadProduccion
 	
 	method esBueno() = capacidadProduccion > reguladorNivel.nivel()
+	method recibirAtaque(plaga){
+		capacidadProduccion = capacidadProduccion - (plaga.nivelDanio() * 0.1)
+		if(plaga.transmitirEnfermedad()){
+			capacidadProduccion -= 10
+		}
+	}
 }
 
 object reguladorNivel {
@@ -20,6 +27,11 @@ class Mascota {
 	const nivelMinimo = 250
 	
 	method esBueno() = nivelSalud > nivelMinimo
+	method recibirAtaque(plaga){
+		if(plaga.transmitirEnfermedad()){
+			nivelSalud -= plaga.nivelDanio()
+		}
+	}
 }
 
 class Barrio {
@@ -34,8 +46,10 @@ class Barrio {
 class Plaga {
 	var property poblacion
 	
+	method nivelDanio() = poblacion * 2
 	method transmitirEnfermedad() = poblacion > 10
 	method atacar(elemento) {
+		elemento.recibirAtaque(self)
 		poblacion *= 1.1
 	}
 }
@@ -44,15 +58,14 @@ class PlagaCucas inherits Plaga {
 	var property pesoPromedio
 	
 	override method transmitirEnfermedad() = super() and pesoPromedio >= 10
-	method nivelDanio() = poblacion / 2
+	override method nivelDanio() = poblacion / 2
 	override method atacar(elemento){
 		super(elemento)
-		poblacion += 2
+		pesoPromedio += 2
 	}
 }
 
 class PlagaPulgas inherits Plaga{
-	method nivelDanio() = poblacion * 2
 }
 
 class PlagaGarrapatas inherits PlagaPulgas{
@@ -64,5 +77,5 @@ class PlagaGarrapatas inherits PlagaPulgas{
 
 class PlagaMosquitos inherits Plaga{
 	override method transmitirEnfermedad() = super() and poblacion % 3 == 0
-	method nivelDanio() = poblacion
+	override method nivelDanio() = poblacion
 }
